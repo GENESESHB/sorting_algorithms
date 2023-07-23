@@ -177,4 +177,96 @@ The outer loop (for-loop) runs through the list, starting from the second node (
 
 The inner loop (while-loop) compares the value of the current node (`cle->n`) with the value of the node before it (`insert->n`). It continues swapping the nodes using the `swap_nodes` function until the current node (`cle`) is in its correct position (i.e., it's greater than or equal to the node before it). After each swap, the `print_list` function (not shown in this code snippet) is called to print the current state of the list. This can be useful to visualize the sorting process.
 
-The insertion sort algorithm continues until all nodes are in their correct positions, resulting in a sorted doubly-linked list.
+The insertion sort algorithm continues until all nodes are in their correct positions, resulting in a sorted doubly-linked list
+
+# Selection sort
+
+Sure, let's go through this code line by line:
+
+```c
+#include "sort.h"
+```
+This line includes the header file "sort.h". The header file likely contains necessary function prototypes and definitions for the functions used in this program.
+
+```c
+/**
+ *swap - Swap two integers in an array.
+ *@a: The first integer to swap.
+ *@b: The second integer to swap.
+ */
+```
+This is a function comment block, documenting the `swap` function. It explains what the function does and provides information about its parameters. The `swap` function is intended to swap two integers in an array. The parameters are:
+
+- `a`: A pointer to the first integer to be swapped.
+- `b`: A pointer to the second integer to be swapped.
+
+```c
+void swap(int *a, int *b)
+{
+        int x;
+
+        x = *a;
+        *a = *b;
+        *b = x;
+}
+```
+This is the implementation of the `swap` function. It swaps the values of two integers pointed to by `a` and `b` using a temporary variable `x`. After the swapping, `a` will point to the value that was originally stored in `b`, and `b` will point to the value that was originally stored in `a`.
+
+```c
+/**
+ * selection_sort - Sort an array of integers in ascending order
+ * using the selection sort algorithm.
+ * @array: An array of integers.
+ * @size: The size of the array.
+ *
+ * Description: prints the array after each swap.
+ */
+```
+This is a function comment block for the `selection_sort` function. It provides information about what the function does and describes its parameters. The `selection_sort` function is intended to sort an array of integers in ascending order using the Selection Sort algorithm. The parameters are:
+
+- `array`: A pointer to an array of integers.
+- `size`: The size of the array.
+
+The function description mentions that it prints the array after each swap. This can be helpful to visualize the sorting process.
+
+```c
+void selection_sort(int *array, size_t size)
+{
+        int *nsghir;
+        size_t i, j;
+
+        if (array == NULL || size < 2)
+                return;
+```
+The `selection_sort` function begins by declaring some local variables: `nsghir`, `i`, and `j`. 
+
+Next, the function checks if the `array` is `NULL` or if its size is less than 2. If either of these conditions is true, it means the array is either empty or has only one element, so it is already sorted, and the function simply returns without performing any sorting.
+
+```c
+        for (i = 0; i < size - 1; i++)
+        {
+                nsghir = array + i;
+                for (j = i + 1; j < size; j++)
+                        nsghir = (array[j] < *nsghir) ? (array + j) : nsghir;
+
+                if ((array + i) != nsghir)
+                {
+                        swap(array + i, nsghir);
+                        print_array(array, size);
+                }
+        }
+}
+```
+The function proceeds with the Selection Sort algorithm.
+
+The outer loop (for-loop) runs from `i = 0` to `i = size - 2`, representing the index of the element being considered for the current iteration. The reason for `size - 2` is that the last element is already in its correct position when all other elements have been sorted.
+
+Within the outer loop, `nsghir` (pronounced as "nseghir") is initialized as a pointer to the element at index `i`. It is used to keep track of the smallest element found in the remaining unsorted part of the array.
+
+The inner loop (another for-loop) runs from `j = i + 1` to `j = size - 1`, representing the index of the element being compared to the element at index `i`. The purpose of this loop is to find the smallest element in the unsorted part of the array.
+
+If the element at index `j` is smaller than the element pointed to by `nsghir`, `nsghir` is updated to point to the element at index `j`. After the inner loop finishes, `nsghir` will point to the smallest element in the unsorted part of the array.
+
+After finding the smallest element, the function checks if the current element (`array + i`) is already the smallest. If it's not, then it performs a swap using the `swap` function to move the smallest element to its correct position in the sorted part of the array. The `print_array` function is called to print the current state of the array after each swap.
+
+The process continues until all elements are in their correct sorted positions, and the array is completely sorted in ascending order.
