@@ -84,3 +84,97 @@ Within the inner loop, the function compares the element at index `j - 1` with t
 After each swap, the `print_array` function (not shown in this code snippet) is called to print the current state of the array. This can be useful to visualize the sorting process.
 
 The Bubble Sort algorithm will continue until the array is completely sorted, and the largest element has "bubbled up" to its correct position.
+
+
+
+# Insertion sort
+
+`
+explining all thing about my code
+`
+
+```c
+#include "sort.h"
+```
+This line includes the header file "sort.h". The header file likely contains necessary function prototypes and definitions for the functions used in this program.
+
+```c
+/**
+ * swap_nodes - Swap two nodes in a listint_t doubly-linked list.
+ * @head: pointer to the head of the doubly-linked list.
+ * @node1: pointer to the first node to swap.
+ * @node2: second node to swap.
+ */
+```
+This is a function comment block, documenting the `swap_nodes` function. It explains what the function does and provides information about its parameters. The `swap_nodes` function is intended to swap two nodes in a doubly-linked list (`listint_t`). The parameters are:
+
+- `head`: A pointer to the head of the doubly-linked list.
+- `node1`: A pointer to the first node to be swapped.
+- `node2`: A pointer to the second node to be swapped.
+
+```c
+void swap_nodes(listint_t **head, listint_t **node1, listint_t *node2)
+{
+        (*node1)->next = node2->next;
+        if (node2->next != NULL)
+                node2->next->prev = *node1;
+        node2->prev = (*node1)->prev;
+        node2->next = *node1;
+        if ((*node1)->prev != NULL)
+                (*node1)->prev->next = node2;
+        else
+                *head = node2;
+        (*node1)->prev = node2;
+        (*node1) = node2->prev;
+}
+```
+This is the implementation of the `swap_nodes` function. It swaps two nodes (`node1` and `node2`) in a doubly-linked list.
+
+The function begins by updating the `next` pointer of `node1` to point to the node that comes after `node2`. Similarly, it updates the `prev` pointer of `node2` to point to the node that comes before `node1`.
+
+Next, it adjusts the pointers of the neighboring nodes to reflect the new connections after the swap. If `node1` had a node before it, then that node's `next` pointer is updated to point to `node2`. Otherwise, if `node1` was the head of the list, `*head` is updated to point to `node2` since `node2` is now the new head.
+
+Finally, the function updates the `prev` pointer of `node1` to point to the node that comes before `node2`. This step is necessary to maintain the integrity of the doubly-linked list.
+
+```c
+/**
+ * insertion_sort_list - sorts a doubly linked list of
+ * integers in order
+ * @list: A pointer of  head  the doubly linked list.
+ *
+ */
+```
+This is a function comment block for the `insertion_sort_list` function. It provides information about what the function does and describes its parameter. The `insertion_sort_list` function is intended to sort a doubly-linked list of integers in ascending order. The parameter `list` is a pointer to the head of the doubly-linked list.
+
+```c
+void insertion_sort_list(listint_t **list)
+{
+        listint_t *cle, *insert, *tp;
+
+        if (list == NULL || *list == NULL || (*list)->next == NULL)
+                return;
+
+        for (cle = (*list)->next; cle != NULL; cle = tp)
+        {
+                tp = cle->next;
+                insert = cle->prev;
+                while (insert != NULL && cle->n < insert->n)
+                {
+                        swap_nodes(list, &insert, cle);
+                        print_list((const listint_t *)*list);
+                }
+
+        }
+}
+```
+This is the implementation of the `insertion_sort_list` function. It sorts the doubly-linked list in ascending order using the Insertion Sort algorithm.
+
+The function first checks if the `list` is `NULL`, if the list is empty (`*list == NULL`), or if there's only one element in the list (`(*list)->next == NULL`). If any of these conditions is true, it means the list is either empty or already sorted, so the function simply returns without performing any sorting.
+
+The function then proceeds with the insertion sort algorithm. It uses three pointers, `cle`, `insert`, and `tp`, where `cle` points to the current node, `insert` points to the node before `cle`, and `tp` is used to keep track of the next node to be processed during the sorting process.
+
+The outer loop (for-loop) runs through the list, starting from the second node (`(*list)->next`) until the end of the list (`cle != NULL`). This loop goes through each node and tries to insert the current node (`cle`) into its correct position in the sorted portion of the list.
+
+The inner loop (while-loop) compares the value of the current node (`cle->n`) with the value of the node before it (`insert->n`). It continues swapping the nodes using the `swap_nodes` function until the current node (`cle`) is in its correct position (i.e., it's greater than or equal to the node before it). After each swap, the `print_list` function (not shown in this code snippet) is called to print the current state of the list. This can be useful to visualize the sorting process.
+
+The insertion sort algorithm continues until all nodes are in their correct positions, resulting in a sorted doubly-linked list.
