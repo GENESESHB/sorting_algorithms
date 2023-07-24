@@ -1,5 +1,4 @@
 #include "sort.h"
-#include "sort.h"
 
 /**
  *swap - a function that swaps two integers.
@@ -10,11 +9,11 @@
 
 void swap(int *a, int *b)
 {
-	int c;
+        int c;
 
-	c = *a;
-	*a = *b;
-	*b = c;
+        c = *a;
+        *a = *b;
+        *b = c;
 }
 
 /**
@@ -29,39 +28,27 @@ void swap(int *a, int *b)
 
 unsigned int lomuto_partition(int *array, int l, int h, size_t size)
 {
-	int i, j, pivot;
+	int j, i;
+	int pivot;
+
 
 	pivot = array[h];
-	i = l - 1;
-	j = h;
+	j = l - 1;
 
-	while (i < j)
+	for (i = l; i <= h; i++)
 	{
-		do
+		if (array[i] <= pivot)
 		{
-			i++;
-		}
-
-		while (array[i] < pivot);
-
-		do
-		{
-			j--;
-		}
-
-		while (array[j] > pivot);
-
-		if (i < j)
-		{
-			swap(&array[i], &array[j]);
-			print_array(array, size);
+			j++;
+			if (i != j)
+			{
+				swap(&array[i], &array[j]);
+				print_array(array, size);
+			}
 		}
 	}
-	swap(&array[i], &array[h]);
-	print_array(array, size);
-	return (i);
+	return (j);
 }
-
 /**
  *quicksort - it is kind of wrapper of quick_sort function.
  *@array: the array to be sorted.
@@ -73,15 +60,15 @@ unsigned int lomuto_partition(int *array, int l, int h, size_t size)
 
 void quicksort(int *array, int l, int h, size_t size)
 {
-	int j;
+        int j;
 
-	if (l < h)
-	{
-		j = lomuto_partition(array, l, h, size);
-		if (j > 0)
-			quicksort(array, l, j - 1, size);
-		quicksort(array, j + 1, h, size);
-	}
+        if (l < h)
+        {
+                j = lomuto_partition(array, l, h, size);
+                if (j > 0)
+                        quicksort(array, l, j - 1, size);
+                quicksort(array, j + 1, h, size);
+        }
 }
 
 /**
@@ -94,7 +81,7 @@ void quicksort(int *array, int l, int h, size_t size)
 
 void quick_sort(int *array, size_t size)
 {
-	if (array == NULL || size == 0)
-		return;
-	quicksort(array, 0, size - 1, size);
+        if (array == NULL || size == 0)
+                return;
+        quicksort(array, 0, size - 1, size);
 }
