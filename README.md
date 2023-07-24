@@ -270,3 +270,115 @@ If the element at index `j` is smaller than the element pointed to by `nsghir`, 
 After finding the smallest element, the function checks if the current element (`array + i`) is already the smallest. If it's not, then it performs a swap using the `swap` function to move the smallest element to its correct position in the sorted part of the array. The `print_array` function is called to print the current state of the array after each swap.
 
 The process continues until all elements are in their correct sorted positions, and the array is completely sorted in ascending order.
+
+# quick sort
+
+`
+explining my code
+`
+
+``
+the code line by line to explain what each part does:
+``
+
+```c
+#include "sort.h"
+#include "sort.h"
+```
+This code includes the header file `sort.h`, which contains the function prototypes and necessary headers for the Quick sort algorithm and printing the array.
+
+```c
+void swap(int *a, int *b)
+{
+        int c;
+
+        c = *a;
+        *a = *b;
+        *b = c;
+}
+```
+This function `swap` is used to interchange the values of two integers. It takes two integer pointers `a` and `b` as arguments and swaps the values they point to.
+
+```c
+unsigned int lomuto_partition(int *array, int l, int h, size_t size)
+{
+        int i, j, pivot;
+
+        pivot = array[h];
+        i = l - 1;
+        j = h;
+
+        while (i < j)
+        {
+                do
+                {
+                        i++;
+                }
+
+                while (array[i] < pivot);
+
+                do
+                {
+                        j--;
+                }
+
+                while (array[j] > pivot);
+
+                if (i < j)
+                {
+                        swap(&array[i], &array[j]);
+                        print_array(array, size);
+                }
+        }
+        swap(&array[i], &array[h]);
+        print_array(array, size);
+        return (i);
+}
+```
+This function `lomuto_partition` implements the Lomuto partition scheme, which is a crucial step in the Quick sort algorithm. It takes an array `array`, and two integers `l` and `h`, which represent the indices of the first and last elements of the array's segment to be partitioned. Additionally, it takes `size`, which is the size of the whole array.
+
+The function first chooses the pivot as the last element of the array segment to be partitioned (`pivot = array[h]`). It then initializes two variables `i` and `j`, where `i` points to the element just before the beginning of the array segment, and `j` points to the last element.
+
+The function uses a while loop to partition the array. It moves `i` and `j` towards each other, such that all elements to the left of `i` are less than the pivot, and all elements to the right of `j` are greater than the pivot. When `i` and `j` cross each other or become equal, the partitioning is complete.
+
+Within the loop, two `do-while` loops are used to increment `i` and decrement `j` until they find elements that need to be swapped. When `i` is pointing to an element greater than or equal to the pivot and `j` is pointing to an element less than or equal to the pivot, they are swapped to maintain the partitioning condition. The array is printed after each swap.
+
+Finally, when the partitioning is complete, the pivot is placed at its correct position by swapping it with the element at index `i`. The array is printed again after the final swap, and the function returns the index of the pivot.
+
+```c
+void quicksort(int *array, int l, int h, size_t size)
+{
+        int j;
+
+        if (l < h)
+        {
+                j = lomuto_partition(array, l, h, size);
+                if (j > 0)
+                        quicksort(array, l, j - 1, size);
+                quicksort(array, j + 1, h, size);
+        }
+}
+```
+This function `quicksort` is a recursive function that performs the Quick sort algorithm. It takes an array `array`, and two integers `l` and `h`, which represent the indices of the first and last elements of the array's segment to be sorted. Additionally, it takes `size`, which is the size of the whole array.
+
+The function first checks if `l` is less than `h`, which ensures that there's more than one element in the array segment. If there's only one element or less, the function returns, as there's no need to sort a single element or an empty array.
+
+If there are multiple elements to be sorted, the function calls the `lomuto_partition` function to partition the array and get the index of the pivot (`j`). Then, it recursively calls `quicksort` to sort the left sub-array (elements before the pivot) and the right sub-array (elements after the pivot).
+
+The recursive calls are made with the array segment to the left and right of the pivot, respectively, by adjusting the `l` and `h` indices accordingly.
+
+```c
+void quick_sort(int *array, size_t size)
+{
+        if (array == NULL || size == 0)
+                return;
+        quicksort(array, 0, size - 1, size);
+}
+```
+This function `quick_sort` is the wrapper function that the user will call to sort the array using the Quick sort algorithm. It takes an array `array` and the `size` of the array.
+
+The function first checks if the array is `NULL` or if its size is less than 2. If so, it means the array is either empty or contains only one element, and there's no need to perform any sorting. In such cases, the function returns immediately.
+
+If the array has two or more elements, the function calls the `quicksort` function with the initial values for the `l` and `h` indices (0 and `size - 1`, respectively), to start the sorting process.
+
+This is the entire code for implementing the Quick sort algorithm using the Lomuto partition scheme, along with the necessary helper functions. When you call the `quick_sort` function from the provided `main` function with an array of integers, it will sort the array in ascending order, and you'll see the intermediate steps of the sorting process being printed along the way.
