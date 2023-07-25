@@ -382,3 +382,73 @@ The function first checks if the array is `NULL` or if its size is less than 2. 
 If the array has two or more elements, the function calls the `quicksort` function with the initial values for the `l` and `h` indices (0 and `size - 1`, respectively), to start the sorting process.
 
 This is the entire code for implementing the Quick sort algorithm using the Lomuto partition scheme, along with the necessary helper functions. When you call the `quick_sort` function from the provided `main` function with an array of integers, it will sort the array in ascending order, and you'll see the intermediate steps of the sorting process being printed along the way.
+
+
+
+# shell sort
+
+``
+      Here's a line-by-line explanation of my code:
+``
+
+```c
+#include "sort.h"
+```
+- This line includes the header file "sort.h" which presumably contains the declaration of functions used in this code.
+
+```c
+void swap(int *a, int *b)
+{
+    int c;
+
+    c = *a;
+    *a = *b;
+    *b = c;
+}
+```
+- This is the implementation of the `swap` function. It takes two integer pointers `a` and `b` as input and swaps the values they point to using a temporary variable `c`.
+
+```c
+void shell_sort(int *array, size_t size)
+{
+    int gap = 1, n;
+    int i, j;
+
+    n = size;
+```
+- The `shell_sort` function starts here. It takes an integer pointer `array` and a `size_t` variable `size` as input. The function will sort the `array` using the shell sort algorithm.
+- It initializes two integer variables `gap` and `n`. `gap` is set to 1 initially, and `n` is assigned the value of `size`.
+
+```c
+    while (gap < n)
+    {
+        gap = gap * 3 + 1;
+    }
+    gap = (gap - 1) / 3;
+```
+- This section calculates the initial value of the `gap` using the sequence (3^k - 1)/2, which is a commonly used sequence in shell sort. The loop multiplies the `gap` by 3 and adds 1 until `gap` becomes greater than or equal to `n`.
+- After the loop, the `gap` is adjusted back by subtracting 1 and then dividing it by 3.
+
+```c
+    while (gap > 0)
+    {
+        for (j = gap; j < n; j++)
+        {
+            for (i = j - gap; i >= 0 && array[i] > array[i + gap]; i -= gap)
+            {
+                swap(&array[i], &array[i + gap]);
+            }
+        }
+        print_array(array, size);
+        gap = (gap - 1) / 3;
+    }
+}
+```
+- This is the main part of the shell sort algorithm. It executes the sorting process with decreasing `gap` values.
+- The outer `while` loop continues until `gap` becomes 0 (regular insertion sort step).
+- Inside the loop, there are two nested `for` loops. The outer loop iterates over the elements of the array starting from `gap` and up to `n`.
+- The inner loop compares elements that are `gap` positions apart and swaps them if necessary to sort the elements based on the current `gap`.
+- After each iteration of the inner loop, the function calls `print_array` to print the current state of the array.
+- Finally, the `gap` is updated again by subtracting 1 and then dividing it by 3 to reduce its value for the next iteration.
+
+Overall, the `shell_sort` function will sort the `array` using the shell sort algorithm with decreasing gap values and print the intermediate steps until the array is fully sorted.
